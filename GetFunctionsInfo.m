@@ -197,9 +197,7 @@ for i = 1:size(xTrain,1)
     Y = logsig(H*wo + bo); %Output from Output Node
     
     e(i,:) = tTrain(i,:) - Y; %Error from Output Node
-    
-    
-    
+
 end
 
 fitness = mse(e);
@@ -287,9 +285,7 @@ for i = 1:size(xTrain,1)
     Y = logsig(H*wo + bo); %Output from Output Node
     
     e(i,:) = tTrain(i,:) - Y; %Error from Output Node
-    
-    
-    
+
 end
 
 fitness = mse(e);
@@ -319,9 +315,7 @@ for i = 1:size(xTrain,1)
     Y = logsig(H*wo + bo); %Output from Output Node
     
     e(i,:) = tTrain(i,:) - Y; %Error from Output Node
-    
-    
-    
+
 end
 
 fitness = mse(e);
@@ -351,9 +345,7 @@ for i = 1:size(xTrain,1)
     Y = logsig(H*wo + bo); %Output from Output Node
     
     e(i,:) = tTrain(i,:) - Y; %Error from Output Node
-    
-    
-    
+
 end
 
 fitness = mse(e);
@@ -383,9 +375,7 @@ for i = 1:size(xTrain,1)
     Y = logsig(H*wo + bo); %Output from Output Node
     
     e(i,:) = tTrain(i,:) - Y; %Error from Output Node
-    
-    
-    
+
 end
 
 fitness = mse(e);

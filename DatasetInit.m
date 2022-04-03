@@ -33,11 +33,6 @@ if DatasetName == "Cancer"
     xTest = X(I(591:end),:);
     tTest = T(I(591:end),:);
     
-    % Cancer_xTrain = xTrain;
-    % Cancer_tTrain = tTrain;
-    % Cancer_xTest = xTest;
-    % Cancer_tTest = tTest;
-    
     clear data I X T;% xTrain tTrain xTest tTest;
 end
 
@@ -66,11 +61,6 @@ if DatasetName == "Heart"
     tTrain = T(I(1:80),:);
     xTest = X(I(81:end),:);
     tTest = T(I(81:end),:);
-    
-    % Heart_xTrain = xTrain;
-    % Heart_tTrain = tTrain;
-    % Heart_xTest = xTest;
-    % Heart_tTest = tTest;
     
     clear data I X T;% xTrain tTrain xTest tTest;
 end
@@ -106,16 +96,7 @@ if DatasetName == "COVID"
         tTrain = T(I(1:737),:);
         xTest = X(I(738:end),:);
         tTest = T(I(738:end),:);
-%     xTrain = X(I(1:881),:);
-%     tTrain = T(I(1:881),:);
-%     xTest = X(I(882:end),:);
-%     tTest = T(I(882:end),:);
-    
-    % Cancer_xTrain = xTrain;
-    % Cancer_tTrain = tTrain;
-    % Cancer_xTest = xTest;
-    % Cancer_tTest = tTest;
-    
+
     clear data I X T;% xTrain tTrain xTest tTest;
 end
 
@@ -259,7 +240,7 @@ if DatasetName == "COVID22nodep"
     clear data I X T;% xTrain tTrain xTest tTest;
 end
 
-% ==================================================if DatasetName == "COVID22nodep"
+% ==================================================
 if DatasetName == "COVID_UNDER22"    
     %Load Data from File
     data = load('under2022.txt');
@@ -323,6 +304,6 @@ if DatasetName == "COVID_OVER22"
     clear data I X T;% xTrain tTrain xTest tTest;
 end
 
-% ==================================================if DatasetName == "COVID22nodep"
+% ==================================================
 
 end

@@ -10,28 +10,27 @@ OptimizerName = {'GWO';'AVOA';'GBO'};
 
 %% Parameters Configuration %%
  
-RunNo=50;                                   % Max Run
+RunNo= 1;                                   % Max Run
 SearchAgentsNo=30;                         % Number of search agents
-MaxIteration = 100;                        % Maximum number of iterations / SearchAgents
+MaxIteration = 10;                        % Maximum number of iterations / SearchAgents
 Findex='null';                             % Function Index
 
-for DatasetNo = 8
+for DatasetNo = 4
     
     % Dataset
     CurrentDataset = string(DatasetName(DatasetNo));
-    disp(strcat('Working on..  ',CurrentDataset,' Dataset'));
+    disp(strcat('Working on ',CurrentDataset,' Dataset'));
     %fprintf('\n');
     
     for OpimizerNo = 1:size(OptimizerName,1)
         
         % Optimizer
         CurrentOptimizer = string(OptimizerName(OpimizerNo));
-        disp(strcat(string(OptimizerName(OpimizerNo)),' is Running...'));
+        disp(strcat(string(OptimizerName(OpimizerNo)),' is Running'));
         
         % Change Number of Hidden Node
-        for HiddenNode = 13
-            
-            
+        for HiddenNode = 18
+
             % Load details of the selected dataset.
             [lb,ub,dim,fobj,inp,hidn,outp] = GetFunctionsInfo(['F' num2str(DatasetNo)],HiddenNode);
             
@@ -45,13 +44,13 @@ for DatasetNo = 8
                 watchRun = tic;                       % Elapsed time for each run.
                 
                 if OpimizerNo == 1
-                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurve1(run,:)] = GWO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
+                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveGWO(run,:)] = GWO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
                 end
                 if OpimizerNo == 2
-                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurve2(run,:)] = AVOA(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
+                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveAVOA(run,:)] = AVOA(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
                 end
                 if OpimizerNo == 3
-                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurve3(run,:)] = GBO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
+                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveGBO(run,:)] = GBO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
                 end
 
                 elapsedRun = toc(watchRun);
@@ -71,11 +70,11 @@ for DatasetNo = 8
             
             filename = strcat('Results\latest\',CurrentDataset,'_',CurrentOptimizer,'_',num2str(HiddenNode),'_HiddenNode','_ElapsedTime_DATA.mat');
             save(filename,'ElapsedTimeRun');
-            
+     
             % Testing rate
             [ClassificationRate(OpimizerNo,HiddenNode), ApproximationError(OpimizerNo,HiddenNode)] = TestFitness(['F' num2str(DatasetNo)],RunNo,mlpConfig,BestPosition);
             
-             clear BestPosition BestScore ElapsedTimeRun;
+             clear BestPosition BestScore ConvergenceCurve ElapsedTimeRun ;
             
         end
         
@@ -83,7 +82,7 @@ for DatasetNo = 8
     
 %   Save to file.
     filename = strcat('Results\latest\',CurrentDataset,'_Performance_Summary_DATA.mat');
-    save(filename,'ClassificationRate', 'ApproximationError');
+    save(filename,'ClassificationRate', 'ApproximationError','ConvergenceCurveGWO','ConvergenceCurveAVOA','ConvergenceCurveGBO');
     
 %   clear ClassificationRate ApproximationError;
     
@@ -91,23 +90,21 @@ for DatasetNo = 8
     fprintf('\n');
     
 end
-
-
-
     
  display('--------------------------------------------------------------------------------------------')
  display('Classification rate')
  display('    MLP_GWO    MLP_AVOA     MLP_GBO ')
- display(mean(ClassificationRate(:,10),2))
+ display(mean(ClassificationRate(:,(HiddenNode)),2))
  display('--------------------------------------------------------------------------------------------')
  figure('Position',[500 500 660 290])
-%Draw convergence curves
+% Draw convergence curves
+
 subplot(1,2,1);
 hold on
 title('Convergence Curves')
-semilogy(mean(ConvergenceCurve1,1),'k')
-semilogy(mean(ConvergenceCurve2,1),'g')
-semilogy(mean(ConvergenceCurve3,1),'r')
+semilogy(mean(ConvergenceCurveGWO,1),'k')
+semilogy(mean(ConvergenceCurveAVOA,1),'g')
+semilogy(mean(ConvergenceCurveGBO,1),'r')
 
 xlabel('Generation');
 ylabel('MSE');
@@ -117,11 +114,11 @@ grid on
 box on
 legend('GWO','AVOA','GBO')
 
-%Draw classification rates
+% Draw classification rates
 subplot(1,2,2);
 hold on
 title('Classification Accuracies')
-bar(mean(ClassificationRate(:,10),2))
+bar(mean(ClassificationRate(:,(HiddenNode)),2))
 xlabel('Algorithm');
 ylabel('Classification rate (%)');
 

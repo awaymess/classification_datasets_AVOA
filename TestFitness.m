@@ -13,12 +13,6 @@ if Function_name=="F1"
         % Assign Weight
         [wi, bi, wo, bo] = MLPWeightInit(solution(agentNo,:),size(xTest,2),L,O);
         
-        %         %Testing with Test Data
-        %         H = logsig(xTest*wi + repmat(bi,size(xTest,1),1));
-        %         Y = logsig(H*wo + repmat(bo,size(xTest,1),1));
-        
-        %         for i = 1:size(xTest,1)
-        
         %Feed Forword to Train
         H = logsig(xTest*wi + bi); %Output from Hidden Node
         Y = logsig(H*wo + bo); %Output from Output Node
@@ -28,21 +22,7 @@ if Function_name=="F1"
         %Performance of Testing
         [tmp,Index1] = max(Y,[],2);
         [tmp,Index2] = max(tTest,[],2);
-        
-        %     parfor agentNo = 1:Runno
-        %
-        %               % Assign Weight
-        %         [wi, bi, wo, bo] = MLPWeightInit(solution(agentNo,:),size(xTest,2),L,O);
-        %
-        %         %Testing with Test Data
-        %         H = logsig(xTest*wi + repmat(bi,size(xTest,1),1));
-        %         Y = logsig(H*wo + repmat(bo,size(xTest,1),1));
-        %
-        %         %Performance of Testing
-        %         [tmp,Index1] = max(Y,[],2);
-        %         [tmp,Index2] = max(tTest,[],2);
-        
-        
+
         % fprintf('Testing ACC. : %.2f \n',mean(mean(Index1 == Index2)) * 100);
         
         tmpAcc(agentNo,1) = mean(mean(Index1 == Index2)) * 100;
@@ -108,13 +88,7 @@ if Function_name=="F3"
         
         % Assign Weight
         [wi, bi, wo, bo] = MLPWeightInit(solution(agentNo,:),size(xTest,2),L,O);
-        
-        %         %Testing with Test Data
-        %         H = logsig(xTest*wi + repmat(bi,size(xTest,1),1));
-        %         Y = logsig(H*wo + repmat(bo,size(xTest,1),1));
-        
-        %         for i = 1:size(xTest,1)
-        
+
         %Feed Forword to Train
         H = logsig(xTest*wi + bi); %Output from Hidden Node
         Y = logsig(H*wo + bo); %Output from Output Node
@@ -128,9 +102,6 @@ if Function_name=="F3"
         
         sumAcc = sum(Index1 == Index2);
         perAcc = (sumAcc/size(xTest,1))*100;
-        
-        %         tmpAcc(agentNo,1) = mean(mean(Index1 == Index2)) * 100;
-        %         tmpErr(agentNo,1) = mse(tTest - Y);
         
         tmpAcc(agentNo,1) = perAcc;
         tmpErr(agentNo,1) = mse(tTest - Y);
@@ -154,30 +125,22 @@ if Function_name=="F4"
         
         % Assign Weight
         [wi, bi, wo, bo] = MLPWeightInit(solution(agentNo,:),size(xTest,2),L,O);
-        
-        %         %Testing with Test Data
-        %         H = logsig(xTest*wi + repmat(bi,size(xTest,1),1));
-        %         Y = logsig(H*wo + repmat(bo,size(xTest,1),1));
-        
-        %         for i = 1:size(xTest,1)
-        
+
         %Feed Forword to Train
         H = logsig(xTest*wi + bi); %Output from Hidden Node
         Y = logsig(H*wo + bo); %Output from Output Node
         
-        %         end
-        
         %Performance of Testing
         [tmp,Index1] = max(Y,[],2);
         [tmp,Index2] = max(tTest,[],2);
+        
+%         fprintf('Testing ACC. : %.2f \n',xTest);
         % fprintf('Testing ACC. : %.2f \n',mean(mean(Index1 == Index2)) * 100);
         
         sumAcc = sum(Index1 == Index2);
         perAcc = (sumAcc/size(xTest,1))*100;
         
-        %         tmpAcc(agentNo,1) = mean(mean(Index1 == Index2)) * 100;
-        %         tmpErr(agentNo,1) = mse(tTest - Y);
-        
+%         fprintf('perAcc ACC. : %.2f \n',perAcc);
         tmpAcc(agentNo,1) = perAcc;
         tmpErr(agentNo,1) = mse(tTest - Y);
         
@@ -212,9 +175,6 @@ if Function_name=="F5"
         
         sumAcc = sum(Index1 == Index2);
         perAcc = (sumAcc/size(xTest,1))*100;
-        
-        %         tmpAcc(agentNo,1) = mean(mean(Index1 == Index2)) * 100;
-        %         tmpErr(agentNo,1) = mse(tTest - Y);
         
         tmpAcc(agentNo,1) = perAcc;
         tmpErr(agentNo,1) = mse(tTest - Y);
@@ -251,9 +211,6 @@ if Function_name=="F6"
         sumAcc = sum(Index1 == Index2);
         perAcc = (sumAcc/size(xTest,1))*100;
         
-        %         tmpAcc(agentNo,1) = mean(mean(Index1 == Index2)) * 100;
-        %         tmpErr(agentNo,1) = mse(tTest - Y);
-        
         tmpAcc(agentNo,1) = perAcc;
         tmpErr(agentNo,1) = mse(tTest - Y);
         
@@ -288,9 +245,6 @@ if Function_name=="F7"
         
         sumAcc = sum(Index1 == Index2);
         perAcc = (sumAcc/size(xTest,1))*100;
-        
-        %         tmpAcc(agentNo,1) = mean(mean(Index1 == Index2)) * 100;
-        %         tmpErr(agentNo,1) = mse(tTest - Y);
         
         tmpAcc(agentNo,1) = perAcc;
         tmpErr(agentNo,1) = mse(tTest - Y);
@@ -327,9 +281,6 @@ if Function_name=="F8"
         sumAcc = sum(Index1 == Index2);
         perAcc = (sumAcc/size(xTest,1))*100;
         
-        %         tmpAcc(agentNo,1) = mean(mean(Index1 == Index2)) * 100;
-        %         tmpErr(agentNo,1) = mse(tTest - Y);
-        
         tmpAcc(agentNo,1) = perAcc;
         tmpErr(agentNo,1) = mse(tTest - Y);
         
@@ -364,10 +315,7 @@ if Function_name=="F9"
         
         sumAcc = sum(Index1 == Index2);
         perAcc = (sumAcc/size(xTest,1))*100;
-        
-        %         tmpAcc(agentNo,1) = mean(mean(Index1 == Index2)) * 100;
-        %         tmpErr(agentNo,1) = mse(tTest - Y);
-        
+                
         tmpAcc(agentNo,1) = perAcc;
         tmpErr(agentNo,1) = mse(tTest - Y);
         
