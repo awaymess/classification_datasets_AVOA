@@ -134,8 +134,10 @@ if Function_name=="F4"
         [tmp,Index1] = max(Y,[],2);
         [tmp,Index2] = max(tTest,[],2);
         
-%         fprintf('Testing ACC. : %.2f \n',xTest);
+        % fprintf('Testing ACC. : %.2f \n',xTest);
         % fprintf('Testing ACC. : %.2f \n',mean(mean(Index1 == Index2)) * 100);
+%         fprintf('Index1 ACC. :  \n',Index1);
+%         fprintf('Index2 ACC. :  \n',Index2);
         
         sumAcc = sum(Index1 == Index2);
         perAcc = (sumAcc/size(xTest,1))*100;
@@ -224,41 +226,6 @@ end
 
 if Function_name=="F7"
     
-    [~, ~, xTest, tTest] = DatasetInit("COVID22nodep");
-    
-    in = mlpConfig.inp; % Number of Input Node
-    L = mlpConfig.hidn; %Number of Hidden Node
-    O = mlpConfig.outp; % Number of Output Node
-    
-    for agentNo = 1:Runno
-        
-        % Assign Weight
-        [wi, bi, wo, bo] = MLPWeightInit(solution(agentNo,:),size(xTest,2),L,O);
-        %Feed Forword to Train
-        H = logsig(xTest*wi + bi); %Output from Hidden Node
-        Y = logsig(H*wo + bo); %Output from Output Node
-        
-        %Performance of Testing
-        [tmp,Index1] = max(Y,[],2);
-        [tmp,Index2] = max(tTest,[],2);
-        % fprintf('Testing ACC. : %.2f \n',mean(mean(Index1 == Index2)) * 100);
-        
-        sumAcc = sum(Index1 == Index2);
-        perAcc = (sumAcc/size(xTest,1))*100;
-        
-        tmpAcc(agentNo,1) = perAcc;
-        tmpErr(agentNo,1) = mse(tTest - Y);
-        
-    end
-    
-    Acc = mean(tmpAcc);
-    Err = mean(tmpErr);
-    
-end
-
-
-if Function_name=="F8"
-    
     [~, ~, xTest, tTest] = DatasetInit("COVID_UNDER22");
     
     in = mlpConfig.inp; % Number of Input Node
@@ -292,7 +259,7 @@ if Function_name=="F8"
 end
 
 
-if Function_name=="F9"
+if Function_name=="F8"
     
     [~, ~, xTest, tTest] = DatasetInit("COVID_OVER22");
     

@@ -5,7 +5,7 @@ clc;
 
 %% Dataset No. %%
 % classification datasets %
-DatasetName = {'Cancer';'Heart';'COVID';'COVID_UNDER';'COVID_OVER';'COVID22';'COVID22nodep';'COVID_UNDER22';'COVID_OVER22'};
+DatasetName = {'Cancer';'Heart';'COVID';'COVID_UNDER';'COVID_OVER';'COVID22';'COVID_UNDER22';'COVID_OVER22'};
 OptimizerName = {'GWO';'AVOA';'GBO'};
 
 %% Parameters Configuration %%

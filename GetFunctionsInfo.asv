@@ -98,7 +98,7 @@ switch F
         % Searching Space Size: (input x hidden) + (hidden * output) + (hidden + output)
         % (Weight for Input -> Hidden) + (Weight for Hidden -> Output) + (Bias for Hidden and Output)
         dim = (inp*hidn)+(hidn*outp)+(hidn+outp);
-
+        
 end
 
 end
