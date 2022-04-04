@@ -12,7 +12,7 @@ OptimizerName = {'GWO';'AVOA';'GBO'};
  
 RunNo= 1;                                   % Max Run
 SearchAgentsNo=30;                         % Number of search agents
-MaxIteration = 10;                        % Maximum number of iterations / SearchAgents
+MaxIteration = 100;                        % Maximum number of iterations / SearchAgents
 Findex='null';                             % Function Index
 
 for DatasetNo = 4
@@ -29,7 +29,7 @@ for DatasetNo = 4
         disp(strcat(string(OptimizerName(OpimizerNo)),' is Running'));
         
         % Change Number of Hidden Node
-        for HiddenNode = 18
+        for HiddenNode = 1:30
 
             % Load details of the selected dataset.
             [lb,ub,dim,fobj,inp,hidn,outp] = GetFunctionsInfo(['F' num2str(DatasetNo)],HiddenNode);
