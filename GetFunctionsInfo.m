@@ -77,7 +77,7 @@ switch F
         % (Weight for Input -> Hidden) + (Weight for Hidden -> Output) + (Bias for Hidden and Output)
         dim = (inp*hidn)+(hidn*outp)+(hidn+outp);
         
-      case 'F8'
+      case 'F7'
         fobj = @MLP_COVID_UNDER22;
         lb=-100;
         ub=100;
@@ -88,7 +88,7 @@ switch F
         % (Weight for Input -> Hidden) + (Weight for Hidden -> Output) + (Bias for Hidden and Output)
         dim = (inp*hidn)+(hidn*outp)+(hidn+outp);
         
-      case 'F9'
+      case 'F8'
         fobj = @MLP_COVID_OVER22;
         lb=-100;
         ub=100;

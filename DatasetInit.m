@@ -172,39 +172,6 @@ if DatasetName == "COVID_OVER"
     
     clear data I X T;% xTrain tTrain xTest tTest;
 end
-% ==================================================
-
-% if DatasetName == "COVID22"
-%     %Load Data from File
-%     data = load('dataset2022.txt');
-%     %[X,~] = mapminmax(data(:,2:10),0,1);
-%     
-%     for i = 2:8
-%         [X(:,i-1),~] = mapminmax(data(:,i));
-%     end
-%     
-%     %Generate Target Class
-%     for i = 1:size(data,1)
-%         
-%         if data(i,9) == 1
-%             T(i,:) = [1 0];
-%         elseif data(i,9) == 2
-%             T(i,:) = [0 1];
-%         end
-%         
-%     end
-%     
-%     %Sampling Split Data
-%     rng('default'); % Random seed
-%     %rng(1); % Random seed
-%     I = randperm(1513);
-%     xTrain = X(I(1:1059),:);
-%     tTrain = T(I(1:1059),:);
-%     xTest = X(I(1060:end),:);
-%     tTest = T(I(1060:end),:);
-%     
-%     clear data I X T;% xTrain tTrain xTest tTest;
-% end
 
 % ==================================================
 

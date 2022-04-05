@@ -10,12 +10,12 @@ OptimizerName = {'GWO';'AVOA';'GBO'};
 
 %% Parameters Configuration %%
  
-RunNo= 1;                                   % Max Run
+RunNo = 2;                                   % Max Run
 SearchAgentsNo=30;                         % Number of search agents
 MaxIteration = 100;                        % Maximum number of iterations / SearchAgents
 Findex='null';                             % Function Index
 
-for DatasetNo = 4
+for DatasetNo = 7
     
     % Dataset
     CurrentDataset = string(DatasetName(DatasetNo));
@@ -29,7 +29,7 @@ for DatasetNo = 4
         disp(strcat(string(OptimizerName(OpimizerNo)),' is Running'));
         
         % Change Number of Hidden Node
-        for HiddenNode = 1:30
+        for HiddenNode = 22
 
             % Load details of the selected dataset.
             [lb,ub,dim,fobj,inp,hidn,outp] = GetFunctionsInfo(['F' num2str(DatasetNo)],HiddenNode);
@@ -41,7 +41,7 @@ for DatasetNo = 4
             
             parfor run = 1:RunNo
                 
-                watchRun = tic;                       % Elapsed time for each run.
+                watchRun = tic; % Elapsed time for each run.
                 
                 if OpimizerNo == 1
                     [BestScore(run,:),BestPosition(run,:),ConvergenceCurveGWO(run,:)] = GWO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
