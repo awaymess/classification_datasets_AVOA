@@ -15,7 +15,7 @@ SearchAgentsNo=30;                         % Number of search agents
 MaxIteration = 10;                        % Maximum number of iterations / SearchAgents
 Findex='null';                             % Function Index
 
-for DatasetNo = 6
+for DatasetNo = 3
     
     % Dataset
     CurrentDataset = string(DatasetName(DatasetNo));
@@ -29,7 +29,7 @@ for DatasetNo = 6
         disp(strcat(string(OptimizerName(OpimizerNo)),' is Running'));
         
         % Change Number of Hidden Node
-        for HiddenNode = 27
+        for HiddenNode = 2
 
             % Load details of the selected dataset.
             [lb,ub,dim,fobj,inp,hidn,outp] = GetFunctionsInfo(['F' num2str(DatasetNo)],HiddenNode);
@@ -44,15 +44,18 @@ for DatasetNo = 6
                 watchRun = tic; % Elapsed time for each run.
                 
                 if OpimizerNo == 1
-                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveGWO(run,:)] = GWO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
+                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveGWO(run,:),ClassificationRate(run,:)] = GWO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
+                    [ClassificationRate1(run,:)] = TestFitness(['F' num2str(DatasetNo)],RunNo,mlpConfig,BestPosition);
                 end
                 if OpimizerNo == 2
                     [BestScore(run,:),BestPosition(run,:),ConvergenceCurveAVOA(run,:)] = AVOA(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
+                    [ClassificationRate1(run,:)] = TestFitness(['F' num2str(DatasetNo)],RunNo,mlpConfig,BestPosition);
                 end
                 if OpimizerNo == 3
                     [BestScore(run,:),BestPosition(run,:),ConvergenceCurveGBO(run,:)] = GBO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
+                    [ClassificationRate1(run,:)] = TestFitness(['F' num2str(DatasetNo)],RunNo,mlpConfig,BestPosition);
                 end
-
+                
                 elapsedRun = toc(watchRun);
                 ElapsedTimeRun(run,:) = elapsedRun;     % Elapsed time for each run.
                 disp(strcat(' >>  ',CurrentOptimizer,' Run No.',num2str(run),' --> ',num2str(HiddenNode),' Hidden Node is done. (',num2str(elapsedRun),' s.)'));
@@ -70,19 +73,20 @@ for DatasetNo = 6
             
             filename = strcat('Results\latest\',CurrentDataset,'_',CurrentOptimizer,'_',num2str(HiddenNode),'_HiddenNode','_ElapsedTime_DATA.mat');
             save(filename,'ElapsedTimeRun');
-            
+
             % Testing rate
             [ClassificationRate(OpimizerNo,HiddenNode), ApproximationError(OpimizerNo,HiddenNode)] = TestFitness(['F' num2str(DatasetNo)],RunNo,mlpConfig,BestPosition);
+           
+            filename = strcat('Results\latest\',CurrentDataset,'_',CurrentOptimizer,'_',num2str(HiddenNode),'_ACC','_Error_DATA.mat');
+            save(filename,'ClassificationRate','ApproximationError');
             
-%             filename = strcat('Results\',CurrentDataset,'_',CurrentOptimizer,'_',num2str(HiddenNode),'_ACC','_Error_DATA.mat');
-%             save(filename,'ClassificationRate','ApproximationError');
-                
             clear BestPosition BestScore ConvergenceCurve ElapsedTimeRun ;
             
         end
         
     end
     
+
 %   Save to file.
     filename = strcat('Results\latest\',CurrentDataset,'_Performance_Summary_DATA.mat');
     save(filename,'ClassificationRate', 'ApproximationError','ConvergenceCurveGWO','ConvergenceCurveAVOA','ConvergenceCurveGBO');

@@ -40,9 +40,7 @@ switch F
         inp=7;
         hidn=NoOfHidden;
         outp=2;
-        % Searching Space Size: (input x hidden) + (hidden * output) + (hidden + output)
-        % (Weight for Input -> Hidden) + (Weight for Hidden -> Output) + (Bias for Hidden and Output)
-        dim = (inp*hidn)+(hidn*outp)+(hidn+outp); %364 dim
+        dim = (inp*hidn)+(hidn*outp)+(hidn+outp);
         
      case 'F4'
         fobj = @MLP_COVID_UNDER;
@@ -51,8 +49,6 @@ switch F
         inp=7;
         hidn=NoOfHidden;
         outp=2;
-        % Searching Space Size: (input x hidden) + (hidden * output) + (hidden + output)
-        % (Weight for Input -> Hidden) + (Weight for Hidden -> Output) + (Bias for Hidden and Output)
         dim = (inp*hidn)+(hidn*outp)+(hidn+outp);
         
      case 'F5'
@@ -62,8 +58,6 @@ switch F
         inp=7;
         hidn=NoOfHidden;
         outp=2;
-        % Searching Space Size: (input x hidden) + (hidden * output) + (hidden + output)
-        % (Weight for Input -> Hidden) + (Weight for Hidden -> Output) + (Bias for Hidden and Output)
         dim = (inp*hidn)+(hidn*outp)+(hidn+outp);
         
      case 'F6'
@@ -73,8 +67,6 @@ switch F
         inp=6;
         hidn=NoOfHidden;
         outp=2;
-        % Searching Space Size: (input x hidden) + (hidden * output) + (hidden + output)
-        % (Weight for Input -> Hidden) + (Weight for Hidden -> Output) + (Bias for Hidden and Output)
         dim = (inp*hidn)+(hidn*outp)+(hidn+outp);
         
       case 'F7'
@@ -84,8 +76,6 @@ switch F
         inp=6;
         hidn=NoOfHidden;
         outp=2;
-        % Searching Space Size: (input x hidden) + (hidden * output) + (hidden + output)
-        % (Weight for Input -> Hidden) + (Weight for Hidden -> Output) + (Bias for Hidden and Output)
         dim = (inp*hidn)+(hidn*outp)+(hidn+outp);
         
       case 'F8'
@@ -95,8 +85,6 @@ switch F
         inp=6;
         hidn=NoOfHidden;
         outp=2;
-        % Searching Space Size: (input x hidden) + (hidden * output) + (hidden + output)
-        % (Weight for Input -> Hidden) + (Weight for Hidden -> Output) + (Bias for Hidden and Output)
         dim = (inp*hidn)+(hidn*outp)+(hidn+outp);
 
 end
@@ -185,12 +173,14 @@ for i = 1:size(xTrain,1)
     H = logsig(xTrain(i,:)*wi + bi); %Output from Hidden Node
     Y = logsig(H*wo + bo); %Output from Output Node
     
+    
     e(i,:) = tTrain(i,:) - Y; %Error from Output Node
 
 end
 
 fitness = mse(e);
 o=fitness;
+
 
 end
 
@@ -282,35 +272,6 @@ o=fitness;
 
 end
 
-function o=MLP_COVID22nodep(solution,mlpConfig)
-
-[xTrain, tTrain, ~, ~] = DatasetInit("COVID22nodep");
-
-in = mlpConfig.inp; % Number of Input Node
-L = mlpConfig.hidn; %Number of Hidden Node
-O = mlpConfig.outp; % Number of Output Node
-
-% Assign Weight
-
-fitness = 0;
-
-[wi, bi, wo, bo] = MLPWeightInit(solution,size(xTrain,2),L,O); % Weight Assign
-
-% Evaluation
-for i = 1:size(xTrain,1)
-    
-    %Feed Forword to Train
-    H = logsig(xTrain(i,:)*wi + bi); %Output from Hidden Node
-    Y = logsig(H*wo + bo); %Output from Output Node
-    
-    e(i,:) = tTrain(i,:) - Y; %Error from Output Node
-
-end
-
-fitness = mse(e);
-o=fitness;
-
-end
 
 function o=MLP_COVID_UNDER22(solution,mlpConfig)
 
