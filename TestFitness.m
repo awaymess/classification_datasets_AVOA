@@ -148,7 +148,7 @@ if Function_name=="F4"
         
     end
     
-    Acc = mean(tmpAcc);
+    Acc = mean(tmpAcc); %test
     Err = mean(tmpErr);
     
 end

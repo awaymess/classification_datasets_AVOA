@@ -1,5 +1,5 @@
 
-function [Best_vulture1_F,Best_vulture1_X,convergence_curve]=AVOA(pop_size,max_iter,lower_bound,upper_bound,variables_no,fobj,mlpConfig)
+function [Best_vulture1_F,Best_vulture1_X,convergence_curve,ClassificationRateAVOA,ApproximationErrorAVOA,trainaccAVOA,trainerrAVOA]=AVOA(pop_size,max_iter,lower_bound,upper_bound,variables_no,fobj,mlpConfig,DatasetNo)
 
     % initialize Best_vulture1, Best_vulture2
     Best_vulture1_X=zeros(1,variables_no);
@@ -59,10 +59,14 @@ function [Best_vulture1_F,Best_vulture1_X,convergence_curve]=AVOA(pop_size,max_i
 
         current_iter=current_iter+1;
         convergence_curve(current_iter)=Best_vulture1_F;
+        
+        [ClassificationRateAVOA(current_iter), ApproximationErrorAVOA(current_iter)] = TestFitness(['F' num2str(DatasetNo)],1,mlpConfig,Best_vulture1_X);
+        
+        [trainaccAVOA(current_iter), trainerrAVOA(current_iter)] = TrainFitness(['F' num2str(DatasetNo)],1,mlpConfig,Best_vulture1_X);
 
         X = boundaryCheck(X, lower_bound, upper_bound);
 
-        fprintf("In Iteration %d, best estimation of the global optimum is %4.4f \n ", current_iter,Best_vulture1_F );
+%         fprintf("In Iteration %d, best estimation of the global optimum is %4.4f \n ", current_iter,Best_vulture1_F );
     end
 
 end

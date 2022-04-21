@@ -289,11 +289,11 @@ fitness = 0;
 
 % Evaluation
 for i = 1:size(xTrain,1)
-    
+
     %Feed Forword to Train
     H = logsig(xTrain(i,:)*wi + bi); %Output from Hidden Node
     Y = logsig(H*wo + bo); %Output from Output Node
-    
+
     e(i,:) = tTrain(i,:) - Y; %Error from Output Node
 
 end

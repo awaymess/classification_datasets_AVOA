@@ -1,7 +1,7 @@
 
 %---------------------------------------------------------------------------------------------------------------------------
 %function [Best_Cost,Best_X,Convergence_curve]=GBO(nP,MaxIt,lb,ub,dim,fobj) (N,Max_iter,lb,ub,dim,fobj,F_index)
-function [Best_Cost,Best_X,Convergence_curve]=GBO(nP,MaxIt,lb,ub,dim,fobj,mlpConfig)
+function [Best_Cost,Best_X,Convergence_curve,ClassificationRateGBO,ApproximationErrorGBO,trainaccGBO,trainerrGBO]=GBO(nP,MaxIt,lb,ub,dim,fobj,mlpConfig,DatasetNo)
 disp('GBO is now tackling your problem');
 
 % Initialization
@@ -102,6 +102,11 @@ for it=1:MaxIt
     
     Convergence_curve(it) = Best_Cost;
     
+     [ClassificationRateGBO(it), ApproximationErrorGBO(it)] = TestFitness(['F' num2str(DatasetNo)],1,mlpConfig,Best_X);
+        
+     [trainaccGBO(it), trainerrGBO(it)] = TrainFitness(['F' num2str(DatasetNo)],1,mlpConfig,Best_X);
+
+    
     %     ShowSurface(lb,ub,F_index); hold on;
     %     for i=1:nP
     %         plot(X(i,1),X(i,2),'*');
@@ -109,6 +114,7 @@ for it=1:MaxIt
     %
     %     hold off;
     %     drawnow;
+    
 end
 end
 % _________________________________________________

@@ -7,15 +7,16 @@ clc;
 % classification datasets %
 DatasetName = {'Cancer';'Heart';'COVID';'COVID_UNDER';'COVID_OVER';'COVID22';'COVID_UNDER22';'COVID_OVER22'};
 OptimizerName = {'GWO';'AVOA';'GBO'};
+% OptimizerName = {'AVOA';};
 
 %% Parameters Configuration %%
  
-RunNo = 2;                                   % Max Run
+RunNo = 50;                                   % Max Run
 SearchAgentsNo=30;                         % Number of search agents
-MaxIteration = 10;                        % Maximum number of iterations / SearchAgents
+MaxIteration = 100;                        % Maximum number of iterations / SearchAgents
 Findex='null';                             % Function Index
 
-for DatasetNo = 6
+for DatasetNo = 7
     
     % Dataset
     CurrentDataset = string(DatasetName(DatasetNo));
@@ -29,7 +30,7 @@ for DatasetNo = 6
         disp(strcat(string(OptimizerName(OpimizerNo)),' is Running'));
         
         % Change Number of Hidden Node
-        for HiddenNode = 27
+        for HiddenNode = 22
 
             % Load details of the selected dataset.
             [lb,ub,dim,fobj,inp,hidn,outp] = GetFunctionsInfo(['F' num2str(DatasetNo)],HiddenNode);
@@ -44,13 +45,13 @@ for DatasetNo = 6
                 watchRun = tic; % Elapsed time for each run.
                 
                 if OpimizerNo == 1
-                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveGWO(run,:)] = GWO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
+                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveGWO(run,:),ClassificationRateGWO(run,:),ApproximationErrorGWO(run,:),trainaccGWO(run,:),trainerrGWO(run,:)] = GWO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig,DatasetNo);
                 end
                 if OpimizerNo == 2
-                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveAVOA(run,:)] = AVOA(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
+                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveAVOA(run,:),ClassificationRateAVOA(run,:),ApproximationErrorAVOA(run,:),trainaccAVOA(run,:),trainerrAVOA(run,:)] = AVOA(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig,DatasetNo);
                 end
                 if OpimizerNo == 3
-                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveGBO(run,:)] = GBO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig);
+                    [BestScore(run,:),BestPosition(run,:),ConvergenceCurveGBO(run,:),ClassificationRateGBO(run,:),ApproximationErrorGBO(run,:),trainaccGBO(run,:),trainerrGBO(run,:)] = GBO(SearchAgentsNo,MaxIteration,lb,ub,dim,fobj,mlpConfig,DatasetNo);
                 end
 
                 elapsedRun = toc(watchRun);
@@ -73,6 +74,8 @@ for DatasetNo = 6
             
             % Testing rate
             [ClassificationRate(OpimizerNo,HiddenNode), ApproximationError(OpimizerNo,HiddenNode)] = TestFitness(['F' num2str(DatasetNo)],RunNo,mlpConfig,BestPosition);
+            % Train rate
+            [ClassificationRate(OpimizerNo,HiddenNode), ApproximationError(OpimizerNo,HiddenNode)] = TrainFitness(['F' num2str(DatasetNo)],RunNo,mlpConfig,BestPosition);
             
 %             filename = strcat('Results\',CurrentDataset,'_',CurrentOptimizer,'_',num2str(HiddenNode),'_ACC','_Error_DATA.mat');
 %             save(filename,'ClassificationRate','ApproximationError');
@@ -86,6 +89,12 @@ for DatasetNo = 6
 %   Save to file.
     filename = strcat('Results\latest\',CurrentDataset,'_Performance_Summary_DATA.mat');
     save(filename,'ClassificationRate', 'ApproximationError','ConvergenceCurveGWO','ConvergenceCurveAVOA','ConvergenceCurveGBO');
+    
+    filename = strcat('Results\latest\',CurrentDataset,'_ACC_TEST_TRAIN_Summary_DATA.mat');
+    save(filename,'ClassificationRateGWO','ClassificationRateAVOA','ClassificationRateGBO','trainaccGWO','trainaccAVOA','trainaccGBO');
+    
+    filename = strcat('Results\latest\',CurrentDataset,'_ERR_TEST_TRAIN_Summary_DATA.mat');
+    save(filename,'ApproximationErrorGWO','ApproximationErrorAVOA','ApproximationErrorGBO','trainerrGWO','trainerrAVOA','trainerrGBO');
     
 %   clear ClassificationRate ApproximationError;
 
@@ -102,7 +111,7 @@ end
  figure('Position',[500 500 660 290])
 % Draw convergence curves
 
-subplot(1,2,1);
+subplot(1,3,1);
 hold on
 title('Convergence Curves')
 semilogy(mean(ConvergenceCurveGWO,1),'k')
@@ -118,7 +127,7 @@ box on
 legend('GWO','AVOA','GBO')
 
 % Draw classification rates
-subplot(1,2,2);
+subplot(1,3,2);
 hold on
 title('Classification Accuracies')
 bar(mean(ClassificationRate(:,(HiddenNode)),2))
@@ -128,4 +137,22 @@ ylabel('Classification rate (%)');
 grid on
 box on
 set(gca,'XTickLabel',{'GWO','AVOA','GBO'});
+
+
+
+subplot(1,3,3);
+hold on
+title('Convergence Curves')
+semilogy(ClassificationRateAVOA(1,:),'r')
+semilogy(ClassificationRateAVOA(2,:),'g')
+% semilogy(mean(ApproximationErrorAVOA,1),'g')
+% semilogy(mean(ConvergenceCurveGBO,1),'r')
+
+xlabel('Generation');
+ylabel('MSE');
+
+axis tight
+grid on
+box on
+legend('AVOA')
 

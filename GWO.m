@@ -16,7 +16,7 @@
 %                                                                   %
 
 % Grey Wolf Optimizer
-function [Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,fobj,mlpConfig)
+function [Alpha_score,Alpha_pos,Convergence_curve,ClassificationRateGWO,ApproximationErrorGWO,trainaccGWO,trainerrGWO]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,fobj,mlpConfig,DatasetNo)
 disp('GWO is now tackling your problem');
 
 % initialize alpha, beta, and delta_pos
@@ -107,6 +107,11 @@ while l<Max_iter
     end
     l=l+1;    
     Convergence_curve(l)=Alpha_score;
+    
+    [ClassificationRateGWO(l), ApproximationErrorGWO(l)] = TestFitness(['F' num2str(DatasetNo)],1,mlpConfig,Alpha_pos);
+        
+    [trainaccGWO(l), trainerrGWO(l)] = TrainFitness(['F' num2str(DatasetNo)],1,mlpConfig,Alpha_pos);
+
 end
 
 %end
